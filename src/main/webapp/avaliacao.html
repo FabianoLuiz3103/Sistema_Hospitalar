@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="ISO-8859-1">
+    <title>Avaliação consulta</title>
+    <link rel="stylesheet" href="./estilo/back.css">
+    <link rel="stylesheet" href="./estilo/menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://db.onlinewebfonts.com/c/b1030670fe2c54b8736af23bcf6bd166?family=Gotham+HTF+Light"
+        rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/1af7207b68ef04bc4e453e0aa814e986?family=Gotham+HTF+Book"
+        rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/7660bb62fdc3548ba51b96d0fba2705b?family=Gotham+HTF+Medium"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        .card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+
+        .progress-container {
+            width: 80%;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: linear-gradient(to right, red 0%, rgba(255, 0, 0, 0.331) 26%, yellow 53%, yellow 60%, rgba(0, 128, 0, 0.68) 90%, green 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .progress-marker {
+            height: 30px;
+            width: 30px;
+            background-color: white;
+            border: 2px solid #333;
+            border-radius: 50%;
+            position: absolute;
+            top: -5px;
+            transform: translateX(-50%);
+            cursor: grab;
+        }
+
+        .labels {
+            position: relative;
+            width: 100%;
+        }
+
+        .label {
+            position: absolute;
+            bottom: -20px;
+            transform: translateX(-50%);
+            color: #333;
+            font-size: 12px;
+        }
+
+        .progress-container-wrapper {
+            margin-bottom: 20px;
+            /* Espaçamento entre as barras de progresso */
+            width: 200vh;
+        }
+
+        .progress-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 20vh;
+        }
+        .mar{
+            margin-top: -20vh;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="l-header containerColor h-25">
+
+        <div class="l-header-menu">
+            <div class="l-header-menu-wrapper">
+
+                             <nav class="navbar">
+                    <div class="container-fluid">
+                        <a href="/Aluno/Home" class="l-header-logo">
+                            <img src="./imagens/logoMed.png" alt="">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                            aria-labelledby="offcanvasNavbarLabel">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">${sessionScope.dadosPaciente.getNome()}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="menu-paciente.jsp">Menu</a>
+                                    </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="paciente?acao=agendar">Solicitação e agendamento</a>
+                                    </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href='paciente?acao=abrir-form-edicao&cod_paciente=${sessionScope.codPaciente}'>Dados cadastrais</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href='GraficosPac.jsp'>Infográficos]</a>
+                                    </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="login?acaoLogout=pacienteLogout">SAIR</a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="l-header-wrapper ">
+            <div class="l-header-box">
+
+                <h1 class="l-header-title">
+                    Avaliação de consulta
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <nav id="menu" class="l-menu">
+        <div class="d-flex text-light font">
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+            <p>HARMONY HEALTH <img src="./imagens/cina.png" class="p-1 pe-2"></p>
+
+        </div>
+    </nav>
+    <div class="l-content">
+        <div class="l-content-wrapper">
+            <div class="l-content-left">
+                <div id='aulas' class='l-content-tab d-flex flex-wrap'>
+                    <div>
+
+                    </div>
+                          
+                    <form class="mar" action="paciente" method="post">
+                   <input type="hidden" name="acao" value="avaliacao">
+                   <input type="hidden" name="cod_avaliacao" id="codAv" value="">
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta1">-</h4>
+                                   <input type="hidden" name="cod_pergunta1" id="cod1" value="">
+                                    <input type="hidden" name="nota1" id="nota1" value="">
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar1"></div>
+                                <div class="progress-marker" id="progressMarker1"></div>
+                                <div id="labels1" class="labels fw-bold">
+                                    <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta2">-</h4>
+                                   <input type="hidden" name="cod_pergunta2" id="cod2" value="">
+                                  <input type="hidden" name="nota2" id="nota2" value="">
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar2"></div>
+                                <div class="progress-marker" id="progressMarker2"></div>
+                                <div id="labels2" class="labels fw-bold">
+                                    <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta3">-</h4>
+                                   <input type="hidden" name="cod_pergunta3" id="cod3" value="">
+                                     <input type="hidden" name="nota3" id="nota3" value="">
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar3"></div>
+                                <div class="progress-marker" id="progressMarker3"></div>
+                                <div id="labels3" class="labels fw-bold">
+                                    <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta4">-</h4>
+                                <input type="hidden" name="cod_pergunta4" id="cod4" value="">
+                                  <input type="hidden" name="nota4" id="nota4" value="">
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar4"></div>
+                                <div class="progress-marker" id="progressMarker4"></div>
+                                <div id="labels4" class="labels fw-bold">
+                                    <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta5">-</h4>
+                                <input type="hidden" name="cod_pergunta5" id="cod5" value="">
+                                  <input type="hidden" name="nota5" id="nota5" value="">
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar5"></div>
+                                <div class="progress-marker" id="progressMarker5"></div>
+                                <div id="labels5" class="labels fw-bold">
+                                    <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+     					<div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta6">-</h4>
+                                <input type="hidden" name="cod_pergunta6" id="cod6" value="">
+                                  <input type="hidden" name="nota6" id="nota6" value="">
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar6"></div>
+                                <div class="progress-marker" id="progressMarker6"></div>
+                                <div id="labels6" class="labels fw-bold">
+                                   <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta7">-</h4>
+                                <input type="hidden" name="cod_pergunta7" id="cod7" value="">
+                                  <input type="hidden" name="nota7" id="nota7" value="">
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar7"></div>
+                                <div class="progress-marker" id="progressMarker7"></div>
+                                <div id="labels7" class="labels fw-bold">
+                                    <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta8">-</h4>
+                                <input type="hidden" name="cod_pergunta8" id="cod8" value="">
+                                  <input type="hidden" name="nota8" id="nota8" value="">
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar8"></div>
+                                <div class="progress-marker" id="progressMarker8"></div>
+                                <div id="labels8" class="labels fw-bold">
+                                  <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta9">-</h4>
+                                <input type="hidden" name="cod_pergunta9" id="cod9" value="">
+                                  <input type="hidden" name="nota9" id="nota9" value="">
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar9"></div>
+                                <div class="progress-marker" id="progressMarker9"></div>
+                                <div id="labels9" class="labels fw-bold">
+                                   <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <h4 id="pergunta10">-</h4>
+                                <input type="hidden" name="cod_pergunta10" id="cod10" value="">
+                                  <input type="hidden" name="nota10" id="nota10" value="">
+                            </div>
+                          
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar10"></div>
+                                <div class="progress-marker" id="progressMarker10"></div>
+                                <div id="labels10" class="labels fw-bold">
+                                   <span class="label" style="left: 2%;"  value="0">0</span>
+                                    <span class="label" style="left: 10%;" value="1">1</span>
+                                    <span class="label" style="left: 20%;" value="2">2</span>
+                                    <span class="label" style="left: 30%;" value="3">3</span>
+                                    <span class="label" style="left: 40%;" value="4">4</span>
+                                    <span class="label" style="left: 50%;" value="5">5</span>
+                                    <span class="label" style="left: 60%;" value="6">6</span>
+                                    <span class="label" style="left: 70%;" value="7">7</span>
+                                    <span class="label" style="left: 80%;" value="8">8</span>
+                                    <span class="label" style="left: 90%;" value="9">9</span>
+                                    <span class="label" style="left: 98%;" value="10">10</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="progress-container-wrapper">
+                            <div class="progress-title">
+                                <button class="btn btn-primary" id="btnEn" type="submit">ENVIAR</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        
+    </script>
+    
+     <script>
+     var urlAtual = window.location.href;
+
+  // Analisando a URL para obter os parâmetros
+  var url = new URL(urlAtual);
+  var codPaciente = url.searchParams.get("cod_paciente");
+  var codConsulta = url.searchParams.get("cod_consulta");
+  var nurl = "./paciente?acao=carregar-perguntas&cod_paciente="+codPaciente+"&cod_consulta="+codConsulta;
+        fetch(nurl)
+            .then(response => response.json())
+            .then(data => {
+            	
+            	const perguntas = data.perguntas;
+              
+                document.getElementById("pergunta1").innerText = perguntas[0].texto;
+                document.getElementById("pergunta2").innerText = perguntas[1].texto;
+                document.getElementById("pergunta3").innerText = perguntas[2].texto;
+                document.getElementById("pergunta4").innerText = perguntas[3].texto;
+                document.getElementById("pergunta5").innerText = perguntas[4].texto;
+                document.getElementById("pergunta6").innerText = perguntas[5].texto;
+                document.getElementById("pergunta7").innerText = perguntas[6].texto;
+                document.getElementById("pergunta8").innerText = perguntas[7].texto;
+                document.getElementById("pergunta9").innerText = perguntas[8].texto;
+                document.getElementById("pergunta10").innerText = perguntas[9].texto;
+                
+                
+                document.getElementById("cod1").value = perguntas[0].cod_pergunta;
+                document.getElementById("cod2").value = perguntas[1].cod_pergunta;
+                document.getElementById("cod3").value = perguntas[2].cod_pergunta;
+                document.getElementById("cod4").value = perguntas[3].cod_pergunta;
+                document.getElementById("cod5").value = perguntas[4].cod_pergunta;
+                document.getElementById("cod6").value = perguntas[5].cod_pergunta;
+                document.getElementById("cod7").value = perguntas[6].cod_pergunta;
+                document.getElementById("cod8").value = perguntas[7].cod_pergunta;
+                document.getElementById("cod9").value = perguntas[8].cod_pergunta;
+                document.getElementById("cod10").value = perguntas[9].cod_pergunta;
+                
+                const idAvaliacao = data.idAvaliacao;
+                document.getElementById("codAv").value = idAvaliacao;
+                console.log(idAvaliacao);
+
+            })
+            .catch(error => console.error('Erro na solicitação AJAX', error));
+        
+        
+    </script>
+    
+   <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configurar cada barra de progresso
+            setupProgressBar('progressBar1', 'progressMarker1', 'labels1');
+            setupProgressBar('progressBar2', 'progressMarker2', 'labels2');
+            setupProgressBar('progressBar3', 'progressMarker3', 'labels3');
+            setupProgressBar('progressBar4', 'progressMarker4', 'labels4');
+            setupProgressBar('progressBar5', 'progressMarker5', 'labels5');
+            setupProgressBar('progressBar6', 'progressMarker6', 'labels6');
+            setupProgressBar('progressBar7', 'progressMarker7', 'labels7');
+            setupProgressBar('progressBar8', 'progressMarker8', 'labels8');
+            setupProgressBar('progressBar9', 'progressMarker9', 'labels9');
+            setupProgressBar('progressBar10', 'progressMarker10', 'labels10');
+         
+        });
+
+        function setupProgressBar(progressBarId, progressMarkerId, labelsId) {
+            const progressBar = document.getElementById(progressBarId);
+            const progressMarker = document.getElementById(progressMarkerId);
+            const labels = document.getElementById(labelsId).querySelectorAll('.label');
+
+            let isDragging = false;
+
+            progressMarker.addEventListener('mousedown', (event) => {
+                event.preventDefault();
+                isDragging = true;
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            });
+
+            function handleMouseMove(event) {
+                if (!isDragging) return;
+
+                const { width, left } = progressBar.getBoundingClientRect();
+                let position = (event.clientX - left) / width;
+                position = Math.max(0, Math.min(1, position)); // Ensure position is between 0 and 1
+                updateProgress(position);
+            }
+
+            function handleMouseUp() {
+                if (isDragging) {
+                    isDragging = false;
+                    document.removeEventListener('mousemove', handleMouseMove);
+                    document.removeEventListener('mouseup', handleMouseUp);
+                    const selectedValue = getSelectedValue();
+                    console.log(selectedValue);
+                    const progressBarId = progressMarker.id.replace('progressMarker', '');
+                    const notaInputId = 'nota' + progressBarId;
+                    console.log(notaInputId);
+                    document.getElementById(notaInputId).value = selectedValue;
+
+                }
+            }
+
+            function updateProgress(position) {
+                progressMarker.style.left = `${position * 100}%`;
+            }
+            function getSelectedValue() {
+                const markerPosition = getMarkerPosition();
+
+                let closestLabel = labels[0];
+                let minDistance = Math.abs(markerPosition - getLabelPosition(closestLabel));
+
+                labels.forEach((label) => {
+                    const distance = Math.abs(markerPosition - getLabelPosition(label));
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestLabel = label;
+                    }
+                });
+
+                return closestLabel.getAttribute('value');
+            }
+
+
+            function getMarkerPosition() {
+                return parseFloat(progressMarker.style.left.replace('%', '')) / 100;
+            }
+
+            function getLabelPosition(label) {
+                return parseFloat(label.style.left.replace('%', '')) / 100;
+            }
+        }
+    </script>
+</body>
+
+</html>
